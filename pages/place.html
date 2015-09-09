@@ -1,0 +1,16 @@
+<div ng-show="isCurrentPlaceNotOnRecord()">
+  <button class="btn btn-primary" ng-click="addPlace()">
+    Add Place to Favourites
+  </button>
+</div>
+<br/>
+<button class="btn btn-primary" ng-click="backToHome()">
+  Back to Home
+</button>
+<hr/>
+<div class="row">
+  <div class="col-md-8 map-height" >
+    <div class="map-height" id="street-view-canvas">
+    </div>
+  </div>
+</div>

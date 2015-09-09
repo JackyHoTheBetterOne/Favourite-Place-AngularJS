@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en-us" ng-app="placeApp">
+    <head>
+        <title>AngularJS Places</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+        <meta charset="UTF-8">
+
+        <!-- load bootstrap and fontawesome via CDN -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="main.css" />
+        <style>
+            html, body, input, select, textarea
+            {
+                font-size: 1.05em !important;
+            }
+        </style>
+        <script type="text/javascript"
+          src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfOUDGFp2L893YhTbGTWFLz17ntAeWV-o&libraries=places">
+        </script>
+        <!-- load angular via CDN -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.5/angular-route.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.5/angular-resource.min.js"></script>
+        <script src="models.js"></script>
+        <script src="app.js"></script>
+        <script src="routes.js"></script>
+
+        <script src="services/general_services.js"></script>
+        <script src="services/google_map_services.js"></script>
+        <script src="services/google_place_services.js"></script>
+
+        <script src="controllers/home_controller.js"></script>
+        <script src="controllers/place_controller.js"></script>
+        
+        <script src="directives.js"></script>
+    </head>
+    <body>
+
+    <header>
+			<nav class="navbar navbar-default">
+			<div class="container">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="/">AngularJS Places</a>
+				</div>
+
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="#"><i class="fa fa-home"></i> Home</a></li>
+				</ul>
+			</div>
+			</nav>
+		</header>
+
+    <div class="container">
+      <div ng-view>
+      </div>
+		</div>
+    </body>
+</html>

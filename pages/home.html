@@ -1,0 +1,27 @@
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <h4>
+      Map for {{currentLocationName}}
+    </h4>
+    <form ng-submit="submit()">
+      <div class="form-group">
+        <input type="text" class="form-control" ng-model="location">
+      </div>
+      <input type="submit" class="btn btn-primary btn-sm" value="Change Current City"/>
+    </form>
+    <br/>
+    <form ng-submit="getPlaces()">
+      <div class="form-group">
+        <input type="text" class="form-control" ng-model="currentPlaceSearch">
+      </div>
+      <input type="submit" class="btn btn-primary btn-sm" value="Search Places"/>
+    </form>
+  </div>
+</div>
+<hr/>
+<div class="row">
+  <div class="col-md-12 map-height" >
+    <div class="map-height" id="map-canvas">
+    </div>
+  </div>
+</div>
