@@ -19,9 +19,20 @@
   </div>
 </div>
 <hr/>
-<div class="row">
-  <div class="col-md-12 map-height" >
-    <div class="map-height" id="map-canvas">
-    </div>
-  </div>
+<div>
+  <tabset>
+    <tab heading="Map">
+      <div class="row">
+        <div class="col-md-12 map-height" >
+          <div class="map-height" id="map-canvas">
+          </div>
+        </div>
+      </div>
+    </tab>
+    <tab heading="Places" ng-if="ifAnyFavouritePlace()">
+      <div>
+        Hello
+      </div>
+    </tab>
+  </tabset>
 </div>

@@ -1,18 +1,13 @@
 placeApp.controller('placeController',
 ['$scope', 'locationService', 'googleStreetView',
 '$location', 'locationObjStorageService', '$window',
+'placeAddingService',
 function ($scope, locationService, googleStreetView,
-$location, locationObjStorageService, $window) {
+$location, locationObjStorageService, $window,
+placeAddingService) {
   var
     streetViewDivId = 'street-view-canvas',
     markerPosition = locationService.marker.position;
-
-
-  function isAreaNotOnRecord (type, name) {
-    var string = locationObjStorageService.getRecordString(type);
-
-    return string.indexOf(name) === -1 ? true : false;
-  }
 
   $scope.place = googleStreetView.getStreetView({
     view_id: streetViewDivId,
@@ -24,40 +19,21 @@ $location, locationObjStorageService, $window) {
   $scope.placeObj = locationService.placeObj;
 
   $scope.addPlace = function () {
-    var
-      locationObj = locationService.locationObj,
-      name = locationObj.address_components[0].long_name,
-      address = location.formatted_address,
-      placeObj = $scope.placeObj,
-      placeName = placeObj.name;
-
-    if (isAreaNotOnRecord("location", name)) {
-      var locationObjLocal = new Location(name, address, locationObj);
-      $scope.locationArr.push(
-        locationObjLocal
+    return (function(scope) {
+      $scope.locationArr = placeAddingService.addPlace(
+        locationService.locationObj,
+        $scope.placeObj
       );
-    } else {
-      var locationObj = locationObjStorageService.
-        getLocation(address);
-    }
-
-    locationObj.addPlace(
-      new Place(placeName, placeObj)
-    );
+    })($scope);
   }
 
   $scope.isCurrentPlaceNotOnRecord = function () {
     var name = $scope.placeObj.name;
 
-    return isAreaNotOnRecord("place", name);
+    return locationObjStorageService.isAreaNotOnRecord("place", name);
   }
 
   $scope.backToHome = function () {
     $location.path('/');
   }
-
-  $scope.$watch('locationArr', function(){
-    locationObjStorageService.locationArr = $scope.locationArr;
-    $window.localStorage.locationStorage = JSON.stringify($scope.locationArr);
-  });
 }]);

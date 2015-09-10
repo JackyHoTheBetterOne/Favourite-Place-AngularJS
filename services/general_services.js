@@ -4,14 +4,14 @@ function (){
 }]);
 
 placeApp.service('locationObjStorageService', [
-'$window',
-function ($window) {
+'$window', '$localStorage',
+function ($window, $localStorage) {
   var
     self = this,
-    storage = $window.localStorage.locationStorage;
+    storage = $localStorage.locationStorage;
 
-  self.locationArr = storage instanceof Array ?
-    JSON.parse(storage) : [];
+  self.locationArr = typeof storage === "undefined" || storage === "" ?
+    [] : JSON.parse(storage);
 
 
   self.getRecordString = function (type) {
@@ -21,7 +21,7 @@ function ($window) {
 
     if (type === "location") {
       for(var i = 0; i < arr.length; i++) {
-        stringArr.push(arr[i].name);
+        stringArr.push(arr[i].address);
       }
     } else if (type === "place") {
       for(var i = 0; i < arr.length; i++) {
@@ -35,15 +35,22 @@ function ($window) {
     return stringArr.join(" ");
   }
 
+  self.isAreaNotOnRecord = function (type, name) {
+    var string = self.getRecordString(type);
+
+    return string.indexOf(name) === -1 ? true : false;
+  }
+
   self.getLocation = function (address) {
     var
       self = this,
       arr = self.locationArr;
     for(var i = 0; i < arr.length; i++) {
       var location = arr[i];
-      if (address === location.formatted_address) {
+      if (address === location.address) {
         return location;
       }
     }
+    return false;
   }
 }]);

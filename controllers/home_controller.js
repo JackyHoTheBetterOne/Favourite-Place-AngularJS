@@ -1,10 +1,10 @@
 placeApp.controller('homeController',
 ['$scope', 'locationService', 'googleLocation', 'googleMap',
 'googlePlace', 'googleAddMarker', 'googleMarkerInfo',
-'googlePlaceDetail', '$location',
+'googlePlaceDetail', '$location', 'locationObjStorageService',
 function($scope, locationService, googleLocation, googleMap,
 googlePlace, googleAddMarker, googleMarkerInfo,
-googlePlaceDetail, $location) {
+googlePlaceDetail, $location, locationObjStorageService) {
   var mapID = "map-canvas";
   $scope.location = locationService.location;
   $scope.currentPlaceSearch = locationService.currentPlaceSearch;
@@ -87,7 +87,18 @@ googlePlaceDetail, $location) {
     })($scope);
   })();
 
-
+  $scope.ifAnyFavouritePlace = function () {
+    if (!$scope.locationArr) {
+      return false;
+    } else {
+      return !locationObjStorageService.
+        isAreaNotOnRecord('location',
+          $scope.locationArr[0].formatted_address) &&
+        locationObjStorageService.getLocation(
+          $scope.locationArr[0].formatted_address
+        ).places.length > 0;
+    }
+  }
 
   $scope.$watch('location', function(){
     locationService.location = $scope.location;
