@@ -1,8 +1,8 @@
 placeApp.service('placeAddingService', [
 '$localStorage', 'locationObjStorageService',
-'locationService',
+'locationService', 'modelService',
 function($localStorage, locationObjStorageService,
-locationService) {
+locationService, modelService) {
   var self = this;
 
   self.addPlace = function (locationObj, placeObj) {
@@ -10,10 +10,17 @@ locationService) {
       name = locationObj.address_components[0].long_name,
       address = locationObj.formatted_address,
       placeObj = placeObj,
+      placeAddress = placeObj.formatted_address,
       placeName = placeObj.name;
 
     if (locationObjStorageService.isAreaNotOnRecord("location", address)) {
-      var locationObjLocal = new Location(name, address, locationObj);
+      var locationObjLocal = modelService.newLocation(
+        {
+          name: name,
+          address: address,
+          locationObj: locationObj
+        }
+      );
       locationObjStorageService.locationArr.push(
         locationObjLocal
       );
@@ -23,7 +30,11 @@ locationService) {
     }
 
     locationObjLocal.addPlace(
-      new Place(placeName, placeObj)
+      modelService.newPlace({
+        name: placeName,
+        address: placeAddress,
+        placeObj: placeObj
+      })
     );
 
     return $localStorage.locationStorage =

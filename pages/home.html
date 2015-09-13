@@ -5,16 +5,20 @@
     </h4>
     <form ng-submit="submit()">
       <div class="form-group">
-        <input type="text" class="form-control" ng-model="location">
+        <input type="text" class="form-control"
+          ng-model="location">
       </div>
-      <input type="submit" class="btn btn-primary btn-sm" value="Change Current City"/>
+      <input type="submit" class="btn btn-primary btn-sm"
+        value="Change Current City"/>
     </form>
     <br/>
     <form ng-submit="getPlaces()">
       <div class="form-group">
-        <input type="text" class="form-control" ng-model="currentPlaceSearch">
+        <input type="text" class="form-control"
+          ng-model="currentPlaceSearch">
       </div>
-      <input type="submit" class="btn btn-primary btn-sm" value="Search Places"/>
+      <input type="submit" class="btn btn-primary btn-sm"
+        value="Search Places"/>
     </form>
   </div>
 </div>
@@ -30,8 +34,10 @@
       </div>
     </tab>
     <tab heading="Places" ng-if="ifAnyFavouritePlace()">
-      <div>
-        Hello
+      <div ng-repeat = "p in currentLocation.places">
+        <br/>
+        <place-detail place="p">
+        </place-detail>
       </div>
     </tab>
   </tabset>

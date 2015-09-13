@@ -73,7 +73,7 @@ function($resource) {
 
   self.getStreetView = function (obj) {
     var
-      place = new google.maps.LatLng(obj.lat, obj.lng);
+      place = new google.maps.LatLng(obj.lat, obj.lng),
       panoramaOptions = {
         position: place,
         pov: {

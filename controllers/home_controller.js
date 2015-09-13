@@ -91,12 +91,10 @@ googlePlaceDetail, $location, locationObjStorageService) {
     if (!$scope.locationArr) {
       return false;
     } else {
-      return !locationObjStorageService.
-        isAreaNotOnRecord('location',
-          $scope.locationArr[0].formatted_address) &&
-        locationObjStorageService.getLocation(
-          $scope.locationArr[0].formatted_address
-        ).places.length > 0;
+      var currentLocation = $scope.currentLocation;
+      ;
+      return Object.keys(currentLocation).length > 0 &&
+        currentLocation.places.length > 0;
     }
   }
 
@@ -106,7 +104,14 @@ googlePlaceDetail, $location, locationObjStorageService) {
 
   $scope.$watch('locationArr', function(){
     var results = $scope.locationArr || [];
-    locationService.locationObj = results.length === 0 ? {} : results[0];
+    if (results.length !== 0) {
+      var location = results[0];
+      locationService.locationObj = location;
+      $scope.currentLocation = locationObjStorageService.
+        getLocation(location.formatted_address);
+    } else {
+      locationService.locationObj = $scope.currentLocation = {};
+    }
   });
 
   $scope.$watch('currentPlaceSearch', function(){

@@ -30,6 +30,8 @@ placeAddingService) {
   $scope.isCurrentPlaceNotOnRecord = function () {
     var name = $scope.placeObj.name;
 
+    ;
+
     return locationObjStorageService.isAreaNotOnRecord("place", name);
   }
 

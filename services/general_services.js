@@ -3,16 +3,18 @@ function (){
   this.location = "Vancouver, BC";
 }]);
 
+
 placeApp.service('locationObjStorageService', [
-'$window', '$localStorage',
-function ($window, $localStorage) {
+'$window', '$localStorage', 'modelService',
+function ($window, $localStorage, modelService) {
   var
     self = this,
     storage = $localStorage.locationStorage;
 
-  self.locationArr = typeof storage === "undefined" || storage === "" ?
-    [] : JSON.parse(storage);
 
+  self.locationArr = typeof storage === "undefined" || storage === "" ?
+    [] : modelService.processStorageLocationArr(
+    JSON.parse(storage));
 
   self.getRecordString = function (type) {
     var
@@ -27,7 +29,7 @@ function ($window, $localStorage) {
       for(var i = 0; i < arr.length; i++) {
         var placeArr = arr[i].places;
         for(var index = 0; index < placeArr.length; index++){
-          stringArr.push(placeArr[i].name);
+          stringArr.push(placeArr[index].name);
         }
       }
     }
@@ -51,6 +53,6 @@ function ($window, $localStorage) {
         return location;
       }
     }
-    return false;
+    return {};
   }
 }]);
