@@ -9,11 +9,11 @@
 </button>
 <hr/>
 <tabset>
-  <tab heading="Street View">
+  <tab heading="Street View" ng-click="initStreetView()">
     <div class="row">
       <div class="col-md-8 map-height" >
-        <div class="map-height" id="street-view-canvas"
-          ng-init="initStreetView()">
+        <div class="map-height" id="street-view-canvas">
+          {{initStreetView()}}
         </div>
       </div>
     </div>

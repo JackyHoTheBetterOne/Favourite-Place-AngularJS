@@ -9,21 +9,22 @@ placeStorageActionService, yelpApiCallService) {
     streetViewDivId = 'street-view-canvas',
     markerPosition = locationService.marker.position;
 
-
   $scope.locationArr = locationObjStorageService.locationArr;
   $scope.placeObj = locationService.placeObj;
 
   $scope.initStreetView = function () {
+    var location = locationService.placeObj.geometry.location;
+
     return (function (scope) {
-      scope.place = googleStreetView.getStreetView({
+      scope.streetView = googleStreetView.getStreetView({
         view_id: streetViewDivId,
-        lat: markerPosition.G,
-        lng: markerPosition.K
+        lat: location.H,
+        lng: location.L
       });
     })($scope);
-  }
+  };
 
-  $scope.initYelpInfo = function () {
+  ($scope.initYelpInfo = function () {
     return (function (scope) {
       var searchParams = {
         location: locationService.locationObj.
@@ -36,14 +37,13 @@ placeStorageActionService, yelpApiCallService) {
         searchParams,
         function (response) {
           $scope.yelpObj = response.businesses[0];
-          console.log($scope.yelpObj);
         },
         function (response) {
           console.log(response);
         }
       );
     })($scope);
-  }
+  })();
 
 
 
@@ -54,15 +54,15 @@ placeStorageActionService, yelpApiCallService) {
         $scope.placeObj
       );
     })($scope);
-  }
+  };
 
   $scope.isCurrentPlaceNotOnRecord = function () {
     var name = $scope.placeObj.name;
 
     return locationObjStorageService.isAreaNotOnRecord("place", name);
-  }
+  };
 
   $scope.backToHome = function () {
     $location.path('/');
-  }
+  };
 }]);

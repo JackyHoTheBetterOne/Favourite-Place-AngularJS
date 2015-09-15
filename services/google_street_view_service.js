@@ -6,6 +6,7 @@ function($resource) {
   self.getStreetView = function (obj) {
     var
       place = new google.maps.LatLng(obj.lat, obj.lng),
+      element = document.getElementById(obj["view_id"]),
       panoramaOptions = {
         position: place,
         pov: {
@@ -14,8 +15,7 @@ function($resource) {
         }
       };
 
-    return new google.maps.StreetViewPanorama(
-      document.getElementById(obj["view_id"]),
-      panoramaOptions);
+    return element ? new google.maps.StreetViewPanorama(
+      element, panoramaOptions) : {};
   }
 }]);
