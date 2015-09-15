@@ -1,10 +1,10 @@
 placeApp.controller('placeController',
 ['$scope', 'locationService', 'googleStreetView',
 '$location', 'locationObjStorageService', '$window',
-'placeStorageActionService',
+'placeStorageActionService', 'yelpApiCallService',
 function ($scope, locationService, googleStreetView,
 $location, locationObjStorageService, $window,
-placeStorageActionService) {
+placeStorageActionService, yelpApiCallService) {
   var
     streetViewDivId = 'street-view-canvas',
     markerPosition = locationService.marker.position;
@@ -20,6 +20,28 @@ placeStorageActionService) {
         lat: markerPosition.G,
         lng: markerPosition.K
       });
+    })($scope);
+  }
+
+  $scope.initYelpInfo = function () {
+    return (function (scope) {
+      var searchParams = {
+        location: locationService.locationObj.
+          formatted_address,
+        limit: 1,
+        term: locationService.placeObj.name
+      };
+
+      yelpApiCallService.getYelpInfo(
+        searchParams,
+        function (response) {
+          $scope.yelpObj = response.businesses[0];
+          console.log($scope.yelpObj);
+        },
+        function (response) {
+          console.log(response);
+        }
+      );
     })($scope);
   }
 
