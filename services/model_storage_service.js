@@ -1,9 +1,3 @@
-placeApp.service('locationService', [
-function (){
-  this.location = "Vancouver, BC";
-}]);
-
-
 placeApp.service('locationObjStorageService', [
 '$window', '$localStorage', 'modelService',
 function ($window, $localStorage, modelService) {

@@ -36,7 +36,9 @@
     <tab heading="Places" ng-if="ifAnyFavouritePlace()">
       <div ng-repeat = "p in currentLocation.places">
         <br/>
-        <place-detail place="p">
+        <place-detail
+          place="p"
+          remove-place="removePlace(place)">
         </place-detail>
       </div>
     </tab>

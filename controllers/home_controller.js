@@ -2,9 +2,11 @@ placeApp.controller('homeController',
 ['$scope', 'locationService', 'googleLocation', 'googleMap',
 'googlePlace', 'googleAddMarker', 'googleMarkerInfo',
 'googlePlaceDetail', '$location', 'locationObjStorageService',
+'placeStorageActionService',
 function($scope, locationService, googleLocation, googleMap,
 googlePlace, googleAddMarker, googleMarkerInfo,
-googlePlaceDetail, $location, locationObjStorageService) {
+googlePlaceDetail, $location, locationObjStorageService,
+placeStorageActionService) {
   var mapID = "map-canvas";
   $scope.location = locationService.location;
   $scope.currentPlaceSearch = locationService.currentPlaceSearch;
@@ -96,6 +98,11 @@ googlePlaceDetail, $location, locationObjStorageService) {
       return Object.keys(currentLocation).length > 0 &&
         currentLocation.places.length > 0;
     }
+  }
+
+  $scope.removePlace = function (place) {
+    placeStorageActionService.removePlace(
+      $scope.currentLocation, place);
   }
 
   $scope.$watch('location', function(){

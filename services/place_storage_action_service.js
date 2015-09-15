@@ -1,4 +1,4 @@
-placeApp.service('placeAddingService', [
+placeApp.service('placeStorageActionService', [
 '$localStorage', 'locationObjStorageService',
 'locationService', 'modelService',
 function($localStorage, locationObjStorageService,
@@ -39,5 +39,9 @@ locationService, modelService) {
 
     return $localStorage.locationStorage =
       JSON.stringify(locationObjStorageService.locationArr);
+  }
+
+  self.removePlace = function (location, place) {
+    location.removePlace(place);
   }
 }]);

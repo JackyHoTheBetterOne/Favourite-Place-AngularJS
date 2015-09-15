@@ -15,6 +15,15 @@
             }
         </style>
         <script type="text/javascript"
+          src="http://oauth.googlecode.com/svn/code/javascript/oauth.js">
+        </script>
+        <script type="text/javascript"
+          src="http://oauth.googlecode.com/svn/code/javascript/sha1.js">
+        </script>
+        <!-- <script type="text/javascript"
+          src="https://raw.github.com/padolsey/prettyPrint.js/master/prettyprint.js">
+        </script> -->
+        <script type="text/javascript"
           src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfOUDGFp2L893YhTbGTWFLz17ntAeWV-o&libraries=places">
         </script>
         <!-- load angular via CDN -->
@@ -26,11 +35,18 @@
         <script src="app.js"></script>
         <script src="routes.js"></script>
 
-        <script src="/services/model_construction_services.js"></script>
-        <script src="services/general_services.js"></script>
-        <script src="services/google_map_services.js"></script>
-        <script src="services/google_place_services.js"></script>
-        <script src="services/record_adding_services.js"></script>
+        <script src="/services/model_construction_service.js"></script>
+        <script src="/services/model_storage_service.js"></script>
+        <script src="/services/variable_sharing_service.js"></script>
+        <script src="/services/place_storage_action_service.js"></script>
+        <script src="/services/google_street_view_service.js"></script>
+        <script src="/services/google_place_service.js"></script>
+        <script src="/services/google_place_detail_service.js"></script>
+        <script src="/services/google_marker_info_service.js"></script>
+        <script src="/services/google_marker_adding_service.js"></script>
+        <script src="/services/google_map_service.js"></script>
+        <script src="/services/google_location_service.js"></script>
+        <script src="/services/yelp_place_service.js"></script>
 
         <script src="controllers/home_controller.js"></script>
         <script src="controllers/place_controller.js"></script>

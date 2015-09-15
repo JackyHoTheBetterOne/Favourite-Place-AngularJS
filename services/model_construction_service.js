@@ -14,6 +14,14 @@ function () {
     addPlace: function(place) {
       var self = this;
       self.places.push(place);
+    },
+
+    removePlace: function(place) {
+      var
+        self = this,
+        places = self.places;
+      debugger;
+      places.splice(places.indexOf(place), 1);
     }
   }
 
@@ -40,7 +48,7 @@ function () {
 
   self.newPlace = function (obj) {
     return new Place(obj['name'],
-      obj['address'], obj['locationObj']);
+      obj['address'], obj['placeObj']);
   }
 
   self.processStorageLocationArr = function (arr) {

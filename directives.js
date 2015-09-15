@@ -5,6 +5,7 @@ placeApp.directive('placeDetail', function(){
     replace: true,
     scope: {
       place: "=",
+      removePlace: "&"
     }
   }
 })

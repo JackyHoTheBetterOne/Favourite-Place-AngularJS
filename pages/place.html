@@ -8,9 +8,18 @@
   Back to Home
 </button>
 <hr/>
-<div class="row">
-  <div class="col-md-8 map-height" >
-    <div class="map-height" id="street-view-canvas">
+<tabset>
+  <tab heading="Street View">
+    <div class="row">
+      <div class="col-md-8 map-height" >
+        <div class="map-height" id="street-view-canvas"
+          ng-init="init()">
+        </div>
+      </div>
     </div>
-  </div>
-</div>
+  </tab>
+  <tab heading="Yelp">
+    <div ng-init="initYelpInfo()">
+    </div>
+  </tab>
+</tabset>
