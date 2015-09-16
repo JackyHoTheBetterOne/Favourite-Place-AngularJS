@@ -4,7 +4,7 @@ placeApp.config(function($routeProvider) {
     templateUrl: "pages/home.html",
     controller: 'homeController'
   })
-  .when('/place', {
+  .when('/place/:location_address/:place_id', {
     templateUrl: 'pages/place.html',
     controller: 'placeController'
   })

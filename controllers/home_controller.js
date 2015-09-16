@@ -2,11 +2,11 @@ placeApp.controller('homeController',
 ['$scope', 'locationService', 'googleLocation', 'googleMap',
 'googlePlace', 'googleAddMarker', 'googleMarkerInfo',
 'googlePlaceDetail', '$location', 'locationObjStorageService',
-'placeStorageActionService',
+'placeStorageActionService', "placeStorageActionService",
 function($scope, locationService, googleLocation, googleMap,
 googlePlace, googleAddMarker, googleMarkerInfo,
 googlePlaceDetail, $location, locationObjStorageService,
-placeStorageActionService) {
+placeStorageActionService, placeStorageActionService) {
   var mapID = "map-canvas";
   $scope.location = locationService.location;
   $scope.currentPlaceSearch = locationService.currentPlaceSearch;
@@ -15,7 +15,8 @@ placeStorageActionService) {
     var arr = [];
     for(var i = 0; i<places.length; i++){
       var place = places[i];
-      (function (place, locationService) {
+      (function (place) {
+
         arr.push(googleAddMarker.addMarker({
           map: map,
           location: place.geometry.location,
@@ -28,18 +29,20 @@ placeStorageActionService) {
               });
             });
             marker.addListener('dblclick', function () {
-              locationService.marker = marker;
-              googlePlaceDetail.getPlaceDetail(
-                map, place.place_id,
-                function (place, status) {
-                  locationService.placeObj = place;
-                  $location.path("/place");
-                  $scope.$apply();
-                });
+              var
+                locationName = placeStorageActionService.addLocation(
+                  $scope.locationArr[0]
+                ).address,
+                placeId = place.place_id,
+                url = "/place/" + encodeURIComponent(locationName) +
+                  "/" + placeId;
+              debugger;
+              $location.path(url);
+              $scope.$apply();
             });
           }
         }));
-      })(place, locationService);
+      })(place);
     }
     return arr;
   }
@@ -105,20 +108,19 @@ placeStorageActionService) {
       $scope.currentLocation, place);
   }
 
-  $scope.$watch('location', function(){
-    locationService.location = $scope.location;
-  });
-
   $scope.$watch('locationArr', function(){
     var results = $scope.locationArr || [];
     if (results.length !== 0) {
       var location = results[0];
-      locationService.locationObj = location;
       $scope.currentLocation = locationObjStorageService.
         getLocation(location.formatted_address);
     } else {
-      locationService.locationObj = $scope.currentLocation = {};
+      $scope.currentLocation = {};
     }
+  });
+
+  $scope.$watch('location', function(){
+    locationService.location = $scope.location;
   });
 
   $scope.$watch('currentPlaceSearch', function(){

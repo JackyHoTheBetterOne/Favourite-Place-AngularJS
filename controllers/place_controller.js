@@ -1,65 +1,89 @@
 placeApp.controller('placeController',
-['$scope', 'locationService', 'googleStreetView',
+['$scope', 'googleStreetView', '$routeParams',
 '$location', 'locationObjStorageService', '$window',
 'placeStorageActionService', 'yelpApiCallService',
-function ($scope, locationService, googleStreetView,
+'googlePlaceDetail', 'googleLocation', 'googleMap',
+function ($scope, googleStreetView, $routeParams,
 $location, locationObjStorageService, $window,
-placeStorageActionService, yelpApiCallService) {
+placeStorageActionService, yelpApiCallService,
+googlePlaceDetail, googleLocation, googleMap) {
   var
     streetViewDivId = 'street-view-canvas',
-    markerPosition = locationService.marker.position;
+    hiddenMapId = "map";
 
   $scope.locationArr = locationObjStorageService.locationArr;
-  $scope.placeObj = locationService.placeObj;
 
-  $scope.initStreetView = function () {
-    var location = locationService.placeObj.geometry.location;
-
+  function initFunctions () {
     return (function (scope) {
-      scope.streetView = googleStreetView.getStreetView({
-        view_id: streetViewDivId,
-        lat: location.H,
-        lng: location.L
-      });
-    })($scope);
-  };
+      (scope.initYelpInfo = function () {
+        return (function (scope) {
+          var searchParams = {
+            location: scope.locationObj.
+              formatted_address,
+            limit: 1,
+            term: scope.placeObj.name
+          };
 
-  ($scope.initYelpInfo = function () {
-    return (function (scope) {
-      var searchParams = {
-        location: locationService.locationObj.
-          formatted_address,
-        limit: 1,
-        term: locationService.placeObj.name
+          yelpApiCallService.getYelpInfo(
+            searchParams,
+            function (response) {
+              scope.yelpObj = $window.yelp = response;
+            },
+            function (response) {
+              console.log(response);
+            }
+          );
+        })($scope);
+      })();
+
+      scope.initStreetView = function () {
+        var location = $scope.placeObj.geometry.location;
+
+        return (function (scope) {
+          scope.streetView = googleStreetView.getStreetView({
+            view_id: streetViewDivId,
+            lat: location.H,
+            lng: location.L
+          });
+        })($scope);
       };
 
-      yelpApiCallService.getYelpInfo(
-        searchParams,
-        function (response) {
-          $scope.yelpObj = response.businesses[0];
-        },
-        function (response) {
-          console.log(response);
-        }
-      );
+      scope.isCurrentPlaceNotOnRecord = function () {
+        var name = $scope.placeObj.name;
+
+        return locationObjStorageService.isAreaNotOnRecord("place", name);
+      };
     })($scope);
-  })();
+  }
 
-
+  (function init (scope) {
+    debugger;
+    googleLocation.getLocationObj(
+      decodeURIComponent($routeParams.location_address),
+      function(data) {
+        scope.locationObj = data.results[0];
+        scope.currentMap = googleMap.getMap(
+          scope.locationObj.geometry.location,
+          hiddenMapId
+        );
+        googlePlaceDetail.getPlaceDetail(
+          scope.currentMap, $routeParams.place_id,
+          function (place, status) {
+            scope.placeObj = place;
+            initFunctions();
+          }
+        );
+      }
+    )
+  })($scope);
 
   $scope.addPlace = function () {
     return (function(scope) {
       $scope.locationArr = placeStorageActionService.addPlace(
-        locationService.locationObj,
+        $scope.locationObj,
         $scope.placeObj
       );
     })($scope);
-  };
-
-  $scope.isCurrentPlaceNotOnRecord = function () {
-    var name = $scope.placeObj.name;
-
-    return locationObjStorageService.isAreaNotOnRecord("place", name);
   };
 
   $scope.backToHome = function () {
