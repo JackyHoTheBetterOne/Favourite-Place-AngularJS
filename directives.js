@@ -9,3 +9,14 @@ placeApp.directive('placeDetail', function(){
     }
   }
 })
+
+placeApp.directive('yelpDetail', function (){
+  return {
+    restrict: 'E',
+    templateUrl: 'directives/yelpDetail',
+    replace: true,
+    scope: {
+      yelppy: '='
+    }
+  }
+})
