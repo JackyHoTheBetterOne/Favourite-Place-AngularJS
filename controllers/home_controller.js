@@ -36,7 +36,6 @@ placeStorageActionService, placeStorageActionService) {
                 placeId = place.place_id,
                 url = "/place/" + encodeURIComponent(locationName) +
                   "/" + placeId;
-              debugger;
               $location.path(url);
               $scope.$apply();
             });

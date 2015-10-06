@@ -57,7 +57,6 @@ googlePlaceDetail, googleLocation, googleMap) {
   }
 
   (function init (scope) {
-    debugger;
     googleLocation.getLocationObj(
       decodeURIComponent($routeParams.location_address),
       function(data) {
